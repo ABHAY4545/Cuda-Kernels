@@ -89,3 +89,4 @@ __global__ void reduction_kernel_v4(float* input, float* partialSums, int N){
         partialSums[blockIdx.x] = input_s[threadIdx.x];
     }
 }
+ 
