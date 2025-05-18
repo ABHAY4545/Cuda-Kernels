@@ -9,7 +9,7 @@ __global__ void RMS_Norm(const float* __restrict__ X, float* __restrict__ Y, siz
 
     if (row >= B) return;
 
-    extern __shared__ float shared_sum[]; 
+    __shared__ float shared_sum[BLOCK_DIM / 32]; 
 
     const float* row_ptr = X + row * N;
     float* out_ptr = Y + row * N;
@@ -65,9 +65,5 @@ __global__ void RMS_Norm(const float* __restrict__ X, float* __restrict__ Y, siz
 }
 
 extern "C" void solution(const float* X, float* Y, size_t B, size_t N) {
-    dim3 block(BLOCK_DIM);
-    dim3 grid(B);
-    size_t shared_size = (BLOCK_DIM / 32) * sizeof(float); 
-
-    RMS_Norm<<<grid, block, shared_size>>>(X, Y, B, N);
+    RMS_Norm<<<B, BLOCK_DIM>>>(X, Y, B, N);
 }
