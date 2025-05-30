@@ -28,4 +28,5 @@ __global__ void Conv2D_Kernel(const float* input, float* output, int width, int 
 
 }
 
+
 //Tiled Version yet to implement
